@@ -9,6 +9,7 @@ from django.db.models.signals import pre_save
 from django.utils import timezone
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
+from taggit.managers import TaggableManager
 
 
 # Create your models here.
@@ -51,6 +52,7 @@ class Post(models.Model):
     next_post = models.ForeignKey(
         'self', related_name='next', on_delete=models.SET_NULL, blank=True, null=True)
     status = models.CharField(max_length=10, choices=options, default='draft')
+    tags = TaggableManager()
     objects = models.Manager()  # default manager
     newmanager = NewManager() 
     

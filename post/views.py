@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from .forms import NewCommentForm, PostSearchForm
 from django.db.models import Q
 from hitcount.views import HitCountDetailView
+from taggit.models import Tag
 
 # Create your views here.
 
@@ -22,6 +23,8 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
         most_recent = Post.objects.order_by('-publish')[:4]
+        common_tags = Post.tags.most_common()[:4]
+        context['common_tags'] = common_tags    
         context['most_recent'] = most_recent
         
         return context
@@ -86,3 +89,14 @@ def post_search(request):
 
 
     
+
+def tagged(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    common_tags = Post.tags.most_common()[:4]
+    posts = Post.objects.filter(tags=tag)
+    context = {
+        'tag':tag,
+        'common_tags':common_tags,
+        'posts':posts,
+    }
+    return render(request, 'blog.html', context)
