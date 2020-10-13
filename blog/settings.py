@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'mptt',
     'whitenoise.runserver_nostatic',
+    'taggit',
 
 ]
 COMMENTS_APP = 'comments'
