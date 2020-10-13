@@ -17,7 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path, include
-from post.views import PostListView,post_search,  post_detail
+from post.views import PostListView,post_search,  post_detail,tagged
 from course.views import CourseListView,CourseDetailView
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import PostSitemap,CourseSitemap
@@ -40,6 +40,7 @@ urlpatterns = [
     path("sitemap.xml/", sitemap, {"sitemaps": sitemaps}, name="django.contrib.sitemaps.views.sitemap"),
     path("feed/rss", LatestPostsFeed(), name="post_feed"),
     path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
+    path('tag/<slug:slug>/', tagged, name="tagged"),
 
     
     
